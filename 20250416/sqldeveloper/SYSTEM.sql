@@ -40,3 +40,6 @@ commit;
 
 SELECT *
 from EMPLOYEES;
+
+select id, pass, name,lev, to_char(ENTER, 'YYYY-MM-DD HH:MI:SS') as time, gender, phone 
+from employees;

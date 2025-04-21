@@ -1,0 +1,491 @@
+select *
+from jobs;
+
+SELECT *
+FROM employees
+--WHERE employee_id BETWEEN 120 AND 130;
+where employee_id>=120 and employee_id<=130;
+
+SELECT *
+FROM employees
+--WHERE salary BETWEEN 10000 AND 12000;
+where salary>=10000 and salary<=12000;
+
+SELECT *
+FROM employees
+--WHERE first_name IN ('Steven', 'John', 'Peter');
+where first_name='Steven' or first_name='John' or first_name='Peter';
+
+SELECT *
+FROM countries;
+
+SELECT *
+FROM countries
+WHERE country_id IN ('IT', 'JP', 'US');
+
+SELECT *
+FROM countries
+WHERE country_id not in ('IT', 'JP', 'US');
+
+SELECT *
+FROM locations
+WHERE city LIKE 'South%';
+
+SELECT *
+FROM locations
+WHERE street_address LIKE '%St';
+
+-- union, union all, minus, intersect
+
+-- UNION (합집합)
+SELECT employee_id, first_name, department_id
+FROM employees
+WHERE department_id= 60;
+
+SELECT employee_id, first_name, department_id
+FROM employees
+WHERE department_id= 100;
+
+SELECT employee_id, first_name, department_id
+FROM employees
+WHERE department_id= 60
+UNION
+SELECT employee_id, first_name, department_id
+FROM employees
+WHERE department_id= 100;
+
+SELECT employee_id, first_name
+FROM employees
+WHERE employee_id<= 160
+UNION
+SELECT employee_id, first_name
+FROM employees
+WHERE employee_id>= 140
+order by employee_id;
+
+SELECT employee_id, first_name
+FROM employees
+WHERE employee_id<= 160
+UNION all
+SELECT employee_id, first_name
+FROM employees
+WHERE employee_id>= 140
+order by employee_id;
+
+SELECT employee_id, first_name
+FROM employees
+WHERE employee_id<= 160
+minus
+SELECT employee_id, first_name
+FROM employees
+WHERE employee_id>= 140
+order by employee_id;
+
+SELECT employee_id, first_name
+FROM employees
+WHERE employee_id<= 160
+intersect
+SELECT employee_id, first_name
+FROM employees
+WHERE employee_id>= 140
+order by employee_id;
+
+-- employees 테이블에서 job_id가 ‘AD’로 시작하는 직원 조회
+SELECT *
+FROM employees
+WHERE job_id LIKE 'AD%';
+
+-- employees 테이블의 first_name에서 ‘ni’를 포함하는 직원 조회
+SELECT *
+FROM employees
+WHERE first_name LIKE '%ni%';
+
+-- jobs 테이블에서 job_title 기준으로 정렬하여 직업 조회
+SELECT job_title
+FROM jobs
+ORDER BY job_title;
+
+-- countries 테이블에서 country_name 기준 내림차순으로 정렬하여 조회
+SELECT country_name
+FROM countries
+ORDER BY country_name DESC;
+
+SELECT first_name, LOWER(first_name), 
+UPPER(first_name), INITCAP(first_name)
+FROM employees;
+
+SELECT job_id, SUBSTR(job_id, 1, 2), SUBSTR(job_id, 4)
+FROM employees;
+ 
+SELECT job_id, REPLACE(job_id, 'MGR', 'MANAGER') as 변경
+FROM employees;
+
+SELECT CONCAT(first_name, last_name)
+FROM employees;
+
+SELECT CONCAT(first_name, CONCAT(' ', last_name))
+FROM employees;
+
+SELECT first_name, INSTR(first_name, 'a')
+FROM employees;
+
+SELECT first_name, substr(first_name, INSTR(first_name, 'a'))
+FROM employees;
+
+SELECT '  Suan  ', '  Su an'
+FROM dual;
+
+SELECT length(TRIM('  Suan  ')), TRIM('  Su an')
+FROM dual;
+
+-- jobs 테이블에서 job_title과 소문자와 대문자로 변환한 job_title을 조회
+select job_title, LOWER(job_title), UPPER(job_title)
+from jobs;
+
+--  employees 테이블에서 first_name 첫1문자와 last_name 조회
+select first_name, SUBSTR(first_name, 1, 1) as first_char, last_name
+from employees;
+
+-- employees 테이블에서 job_id가 ‘REP’ 인부분을 ‘REPRESENTATIVE’로 바꿔서 조회
+select job_id, REPLACE(job_id, 'REP', 'REPRESENTATIVE')
+from employees;
+
+-- employees테이블에서 first_name 첫1문자와 last_name을 중간에 공백을 두고 하나로 결합하여 조회
+SELECT first_name, CONCAT(CONCAT(SUBSTR(first_name, 1, 1), ' '), last_name)
+FROM employees;
+
+-- employees 테이블에서 first_name과 last_name의 길이를 합쳐서 조회
+select first_name,last_name,
+       LENGTH(first_name) + LENGTH(last_name)
+from employees;
+
+-- employees 테이블에서 job_id와 job_id에 ‘A’ 문자 위치 조회
+select job_id, INSTR(job_id, 'A')
+from employees;
+
+-- locations 테이블의 city를 15자리 문자열로 바꾸고, 빈공간을 ‘.’ 으로 표현하여 조회
+select city, RPAD(city, 15, '.')
+from locations;
+
+-- locations 테이블에서 city의 왼쪽부터 ‘S’ 문자를 지운것과 오른쪽부터 ‘e’ 문자를 지운 결과를 조회
+select city, LTRIM(city, 'S'), RTRIM(city, 'e')
+from locations;
+
+
+SELECT salary, salary/21, 
+CEIL(salary/21), FLOOR(salary/21)
+FROM employees;
+
+SELECT SIGN(-123), SIGN(0), SIGN(123)
+FROM dual;
+
+SELECT SYSDATE, SYSDATE + 1, SYSDATE -1
+FROM dual;
+
+SELECT SYSDATE, hire_date, MONTHS_BETWEEN(SYSDATE, hire_date)
+FROM employees;
+
+SELECT employee_id, hire_date, 
+ADD_MONTHS(hire_date, 2), ADD_MONTHS(hire_date, -2)
+FROM employees;
+
+SELECT hire_date, 
+NEXT_DAY(hire_date, 3), 
+NEXT_DAY(hire_date, '수요일'),
+LAST_DAY(hire_date)
+FROM employees;
+
+SELECT employee_id, hire_date
+FROM employees
+WHERE hire_date < TO_DATE('01/01/2019', 'DD/MM/YYYY');
+
+SELECT TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+FROM dual;
+
+SELECT TO_CHAR(SYSDATE, 'CC AD Q')
+FROM dual;
+ 
+SELECT TO_CHAR(SYSDATE, 'AM HH:MI:SS')
+FROM dual;
+
+ALTER SESSION SET TIME_ZONE = 'Asia/Seoul';
+
+commit;
+
+SELECT SESSIONTIMEZONE, CURRENT_TIMESTAMP
+FROM dual;
+
+SELECT department_name, manager_id
+FROM departments;
+
+SELECT department_name, NVL(manager_id, 100)
+FROM departments;
+
+SELECT state_province
+FROM locations;
+
+SELECT NVL(state_province, 'None')
+FROM locations
+ORDER BY state_province;
+
+
+SELECT department_name, 
+NVL2(manager_id, '관리자있음', '관리자없음')
+FROM departments;
+
+SELECT job_title, min_salary,
+DECODE(min_salary, 2500, min_salary* 1.1, min_salary)
+FROM jobs;
+
+SELECT job_title, max_salary,
+DECODE(max_salary, 40000, max_salary* 0.9, max_salary)
+FROM jobs;
+
+ SELECT job_title, min_salary,
+ CASE
+ WHEN min_salary< 4000 THEN min_salary* 1.2
+ WHEN min_salary BETWEEN 4000 AND 6000 THEN min_salary * 1.1
+ ELSE min_salary
+ END AS 최소급여변경
+FROM jobs;
+
+SELECT first_name, salary,
+RANK() OVER(ORDER BY salary DESC) RANK,
+DENSE_RANK() OVER(ORDER BY salary DESC) DENSE_RANK,
+ROW_NUMBER() OVER(ORDER BY salary DESC) ROW_NUMBER
+FROM employees;
+ 
+SELECT COUNT(salary) 
+FROM employees;
+
+SELECT sum(salary) 
+FROM employees;
+
+SELECT COUNT(salary) 
+FROM employees;
+
+select job_id, salary
+from employees;
+
+select job_id, salary, sum(salary), avg(salary)
+from employees;
+
+-- 전 직원 급여 합계, 평균
+select sum(salary), avg(salary)
+from employees;
+
+-- 부서(job_id)별 급여 합계, 평균
+select job_id, sum(salary), avg(salary)
+from employees
+group by job_id
+order by job_id;
+
+-- 부서(job_id)별 급여 합계, 평균(단, 급여 합계가 50000원 이상인 부서만 출력)
+select job_id, sum(salary), avg(salary)
+from employees
+group by job_id
+having sum(salary)>50000;
+
+select max(salary), min(salary)
+from EMPLOYEES;
+
+select max(salary), min(salary)
+from EMPLOYEES
+where hire_date > '20070101';
+
+select salary, DEPARTMENT_ID, hire_date
+from EMPLOYEES
+where hire_date > '20070101';
+
+-- 부서별 최대, 최소 급여
+select DEPARTMENT_ID, max(salary), min(salary)
+from EMPLOYEES
+where hire_date > '20070101'
+group by DEPARTMENT_ID;
+
+-- 전체 직원 조회
+select *
+from EMPLOYEES;
+
+-- 전체 직원의 급여 합과 평균
+select sum(salary), avg(salary)
+from EMPLOYEES;
+
+-- job_id가 50~100 사이 급여 합과 평균
+select job_id, sum(salary), avg(salary)
+from EMPLOYEES
+where DEPARTMENT_ID between 50 and 100
+group by job_id;
+
+-- DEPARTMENT_ID가 50~100 중에서 직무별 급여의 합과 평균
+select DEPARTMENT_ID, sum(salary), round(avg(salary),1) avg
+from EMPLOYEES
+where DEPARTMENT_ID between 50 and 100
+group by DEPARTMENT_ID;
+
+-- DEPARTMENT_ID가 50~100 사이에서 직무별 직원의 급여 합과 평균
+select job_id, department_id, sum(salary), round(avg(salary),1) avg
+from EMPLOYEES
+where DEPARTMENT_ID between 50 and 100
+group by job_id, department_id;
+
+
+-- DEPARTMENT_ID가 50~100 사이 최대, 최소 급여
+select job_id, max(salary), min(salary)
+from EMPLOYEES
+where DEPARTMENT_ID between 50 and 100
+group by job_id;
+
+-- 이상 >=, 초과 >, 이하 <=, 미만 <
+-- 1. employees 테이블에서 salary가 8000이상인 직원의 수를 조회
+SELECT COUNT(salary)
+FROM employees
+WHERE salary >= 8000;
+
+-- 2. employees 테이블에서 hire_date가 2007년1월1일 이후인 직원의 수를 조회
+select COUNT(salary)
+from EMPLOYEES
+where hire_date >= '20070101';
+
+-- 3. jobs 테이블에서 max_salary 값의 합계와 평균을 조회
+select *
+from jobs;
+
+select sum(max_salary) 합계, round(avg(max_salary), 2) 평균
+from jobs;
+
+-- 4. employees 테이블에서 job_id가 ‘IT_PROG’인 직원의 salary 합계와 평균을 조회
+select * 
+from employees;
+
+select sum(salary), avg(salary)
+from employees
+where job_id='IT_PROG';
+
+
+-- 5.  employees 테이블에서 department_id가 50과 80 사이인 직원의
+--      first_name, salary, 그리고 commission_pct의 평균값을
+--      first_name 정렬 기준으로 조회 (null값은 0으로 출력)
+select * 
+from employees;
+
+select first_name, salary
+from employees
+where department_id BETWEEN 50 AND 80;
+
+select first_name, salary, NVL(commission_pct, 0)
+from employees
+where department_id BETWEEN 50 AND 80
+order by first_name;
+
+select first_name, salary, avg(NVL(commission_pct, 0))
+from employees
+where department_id BETWEEN 50 AND 80
+group by first_name, salary, commission_pct
+order by first_name;
+
+-- 6. jobs 테이블에서 max_salary 값의 최솟값과 max_salary 값의 최댓값을 조회
+select min(max_salary), max(max_salary)
+from jobs;
+
+-- 7. jobs 테이블에서 job_title이 ‘Programmer’인 직업의 
+--      max_salary값의 최솟값과 max_salary 값의 최댓값을 조회
+select *
+from jobs
+where job_title='Programmer';
+
+select min(max_salary), max(max_salary)
+from jobs
+where job_title='Programmer';
+
+-- 8.  employees 테이블에서 department_id가 50인 데이터의 hire_date 최소값과 최댓값 조회
+select *
+from employees
+where department_id=50;
+
+select min(hire_date), max(hire_date)
+from employees
+where department_id=50;
+
+-- 9. employees 테이블에서 department_id가 100인 데이터의 first_name, salary, 
+--      그리고 salary의 분산값을 hire_date 정렬 기준으로 조회
+select *
+from employees
+where department_id = 100;
+
+select first_name, salary
+from employees
+where department_id = 100;
+
+select first_name, salary, variance(salary)
+from employees
+where department_id = 100
+group by first_name, salary, hire_date
+ORDER BY hire_date;
+
+select hire_date, first_name, salary, variance(salary) OVER ()
+from employees
+where department_id = 100
+ORDER BY hire_date;
+
+-- 10. employees 테이블에서 hire_date 값이 2004년1월1일부터 2006년12월31일 사이의 데이터를
+--      job_id 기준으로 그룹화한 뒤에 job_id와 salary 최솟값과 최대값을 조회
+select *
+from employees
+where hire_date between '20040101' and '20061231';
+
+select job_id, min(salary), max(salary)
+from employees
+where hire_date between '20040101' and '20061231'
+group by job_id;
+
+-- 11.  employees 테이블에서 department_id가 50과 80인 데이터를 
+--      department_id와 job_id 기준으로 그룹화한 뒤에 department_id와 job_id, 
+--      salary합계, 최솟값, 최대값을 job_id 기준으로 정렬하여 조회
+select *
+from employees
+where department_id between 50 and 80;
+
+select department_id, job_id
+from employees
+where department_id between 50 and 80
+group by department_id, job_id;
+
+select department_id, job_id, sum(salary), min(salary), max(salary)
+from employees
+where department_id between 50 and 80
+group by department_id, job_id
+order by job_id;
+
+-- 12.  employees 테이블에서 department_id와 job_id 기준으로 그룹화한 뒤에
+--      salary 평균값이 12000 이상인 데이터만 department_id와 job_id, salary
+--      최솟값, 최대값, 평균을 department_id 기준으로 정렬하여 조회
+
+--employees 테이블에서 department_id와 job_id 기준으로 그룹화
+select *
+from employees
+group by department_id, job_id;
+
+-- employees 테이블에서 department_id와 job_id 기준으로 그룹화
+-- + department_id와 job_id, salary 최솟값, 최대값, 평균
+select department_id, job_id, min(salary), max(salary), avg(salary)
+from employees
+group by department_id, job_id;
+
+-- employees 테이블에서 department_id와 job_id 기준으로 그룹화
+-- + department_id와 job_id, salary 최솟값, 최대값, 평균
+-- + salary 평균값이 12000 이상인 데이터
+select department_id, job_id, min(salary), max(salary), avg(salary)
+from employees
+group by department_id, job_id
+having avg(salary)>=12000;
+
+-- employees 테이블에서 department_id와 job_id 기준으로 그룹화
+-- + department_id와 job_id, salary 최솟값, 최대값, 평균
+-- + salary 평균값이 12000 이상인 데이터
+-- + department_id 기준으로 정렬
+select department_id, job_id, min(salary), max(salary), avg(salary)
+from employees
+group by department_id, job_id
+having avg(salary)>=12000
+order by department_id;

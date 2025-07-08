@@ -1,0 +1,5 @@
+CREATE USER 'ecovery'@'localhost' IDENTIFIED BY '1234';
+
+GRANT ALL PRIVILEGES ON *.* TO 'ecovery'@'localhost' WITH GRANT OPTION;
+
+FLUSH PRIVILEGES;

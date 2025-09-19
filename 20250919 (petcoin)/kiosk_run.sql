@@ -1,0 +1,4 @@
+INSERT INTO kiosk_run (kiosk_id, member_id, status, started_at, ended_at, total_pet) VALUES
+(1, NULL, 'COMPLETED', NOW() - INTERVAL 35 MINUTE, NOW() - INTERVAL 34 MINUTE, 7),
+(1, NULL, 'COMPLETED', NOW() - INTERVAL 20 MINUTE, NOW() - INTERVAL 19 MINUTE, 9),
+(1, NULL, 'COMPLETED', NOW() - INTERVAL 10 MINUTE, NOW() - INTERVAL  9 MINUTE, 10);
